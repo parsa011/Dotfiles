@@ -6,4 +6,6 @@ if has("gui_running")
     set guifont=SauceCodePro_Nerd_Font:h11
   endif
 endif
-
+nnoremap <leader>d "_d
+xnoremap <leader>d "_d
+xnoremap <leader>p "_dP

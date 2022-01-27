@@ -1,10 +1,14 @@
 # Enable favorite colors
-colorscheme gruvbox-dark
+colorscheme gruvbox
 
 # configure plug.kak
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
 plug "andreyorst/plug.kak" branch "dev" noload
+plug "andreyorst/smarttab.kak"
+plug "AdamChristiansen/kakclip" config %{
+	kakclip-enable
+}
 plug "ul/kak-lsp" do %{
 	cargo build --release --locked
 		cargo install --force --path .
@@ -57,14 +61,6 @@ map -docstring "list references" global user r ':lsp-rename-prompt<ret>'
 map -docstring "next reference" global user n ':lsp-references-next-match<ret>'
 map -docstring "prev reference" global user p ':lsp-reference-previous-match<ret>'
 
-define-command -override -docstring "copy main selection to X11 clipboard" xcopy %{
-	nop %sh{ (echo -n "$kak_selection" | xclip -i -f -selection primary | xclip -i -selection clipboard) < /dev/null > /dev/null 2>&1 & }
-}
-
-define-command -override -docstring "paste X11 clipboard at cursor" xpaste %{
-	exec \i %sh{ xclip -selection clipboard -o } <esc>
-}
-
 # Register custom hooks whenever I open a markdown file.
 hook global WinSetOption filetype=markdown %{
 # Print in the debug buffer so that I can tell the hook fired
@@ -87,3 +83,10 @@ hook global WinSetOption filetype=go %{
 				lint
 		}
 }
+
+# clipboard configs
+map -docstring "paste from clipboard after" global user p ':kakclip-paste-after<ret>'
+map -docstring "paste from clipboard before" global user P ':kakclip-paste-before<ret>'
+map -docstring "replace from clipboard" global user R ':kakclip-replace<ret>'
+map -docstring "yank selection to clipboard" global user y ':kakclip-yank-selection<ret>'
+map -docstring "yank entire buffer to clipboard" global user Y ':kakclip-yank-buffer<ret>'

@@ -1,3 +1,5 @@
+
+
 # config in ~/.config/fish/config.fish
 # some more ls aliases
 alias ll='ls -alF'
@@ -23,3 +25,13 @@ alias g.='git add .'
 alias gc='git commit'
 alias ga='git commit -a'
 alias gp='git push'
+
+# for rust
+set -gx PATH "$HOME/.cargo/bin" $PATH;
+
+# run tmux on start
+if status is-interactive 
+	and not set -q TMUX
+exec tmux
+end
+clear

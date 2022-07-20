@@ -1,7 +1,6 @@
 (menu-bar-mode -1)
 (if window-system
     tool-bar-mode -1)
-)
 (setq-default tab-width 4)
 (setq inhibit-startup-message t
         initial-scratch-message "Hello world"

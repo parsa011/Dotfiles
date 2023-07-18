@@ -18,6 +18,12 @@ set incsearch
 " Highlight search results
 set hlsearch
 
+set laststatus=2
+
+if !has('gui_running')
+	set t_Co=256
+endif
+
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
@@ -101,9 +107,18 @@ nnoremap <m-right> gt
 
 set nu
 
+set guifont=Anonymous\ Pro\:h13
+
 call plug#begin('~/.vim/plugged')
 	Plug 'ludovicchabant/vim-gutentags'
 	Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
+	Plug 'mhinz/vim-startify'
+
+	" Interface stuff
+	Plug 'mhinz/vim-startify' " fancy start page
+	" Plug 'vim-airline/vim-airline'
+	Plug 'itchyny/lightline.vim'
+	Plug 'srcery-colors/srcery-vim'
 
 	" Fuzzy Finder
 	Plug 'nvim-lua/plenary.nvim'
@@ -118,6 +133,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 	" Git
+	Plug 'jreybert/vimagit'
 	if has('nvim') || has('patch-8.0.902')
 		Plug 'mhinz/vim-signify'
 	else
@@ -222,5 +238,20 @@ nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
+" airline config
+"let g:airline_powerline_fonts = 1
+
+" light line status bar
+let g:lightline = {
+			\ 'colorscheme': 'srcery',
+			\ 'active': {
+			\   'left': [ [ 'mode', 'paste' ],
+			\             [ 'readonly', 'filename', 'modified', 'helloworld' ] ]
+			\ },
+			\ 'component': {
+			\   'hey parsa': 'work harder please'
+			\ },
+			\ }
+
 set background=dark
-colorscheme gruvbox 
+colorscheme srcery

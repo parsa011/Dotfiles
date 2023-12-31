@@ -107,8 +107,6 @@ nnoremap <m-right> gt
 
 set nu
 
-set guifont=Anonymous\ Pro\:h13
-
 call plug#begin('~/.vim/plugged')
 	Plug 'ludovicchabant/vim-gutentags'
 	Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
@@ -119,6 +117,8 @@ call plug#begin('~/.vim/plugged')
 	" Plug 'vim-airline/vim-airline'
 	Plug 'itchyny/lightline.vim'
 	Plug 'srcery-colors/srcery-vim'
+
+	Plug 'w0rp/ale'
 
 	" Fuzzy Finder
 	Plug 'nvim-lua/plenary.nvim'
@@ -131,6 +131,9 @@ call plug#begin('~/.vim/plugged')
 	Plug 'vim-scripts/VimIRC.vim'
 	Plug 'jparise/vim-graphql'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+	Plug 'prabirshrestha/asyncomplete.vim'
+	Plug 'prabirshrestha/async.vim'
 
 	" Git
 	Plug 'jreybert/vimagit'
@@ -241,6 +244,9 @@ nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 " airline config
 "let g:airline_powerline_fonts = 1
 
+" ctrlp
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+
 " light line status bar
 let g:lightline = {
 			\ 'colorscheme': 'srcery',
@@ -255,3 +261,42 @@ let g:lightline = {
 
 set background=dark
 colorscheme srcery
+
+set completeopt=menuone,noinsert,noselect,preview
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_auto_completeopt = 0
+let g:asyncomplete_force_refresh_on_context_changed = 1
+
+
+let g:OmniSharp_server_path = '/usr/local/bin/omnisharp-roslyn/OmniSharp'
+inoremap <expr> <Tab> pumvisible() ? '<C-n>' :
+			\ getline('.')[col('.')-2] =~# '[[:alnum:].-_#$]' ? '<C-x><C-o>' : '<Tab>'
+let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_highlight_types = 2
+
+" if using ultisnips, set g:OmniSharp_want_snippet to 1
+let g:OmniSharp_want_snippet = 1
+let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
+let g:OmniSharp_highlighting = 1
+
+nnoremap <C-o><C-u> :OmniSharpFindUsages<CR>
+nnoremap <C-o><C-d> :OmniSharpGotoDefinition<CR>
+nnoremap <C-o><C-d><C-p> :OmniSharpPreviewDefinition<CR>
+nnoremap <C-o><C-r> :!dotnet run
+
+augroup my_omnisharp
+	autocmd!
+	au FileType cs nmap <buffer> <silent> ga :OmniSharpGetCodeActions<CR>
+	au FileType cs nmap <buffer> <silent> gd :OmniSharpGotoDefinition<CR>
+	au FileType cs nmap <buffer> <silent> gq :OmniSharpCodeFormat<CR>
+	au FileType cs nmap <buffer> <silent> gi :OmniSharpFindImplementations<CR>
+	au FileType cs nmap <buffer> <silent> gu :OmniSharpFixUsings<CR>
+	au FileType cs nmap <buffer> <silent> gr :OmniSharpFindUsages<CR>
+	au FileType cs nmap <buffer> <silent> gK :OmniSharpDocumentation<CR>
+	au FileType cs nmap <buffer> <silent> <F2> :OmniSharpRename<CR>
+augroup END
+let g:OmniSharp_loglevel = 'debug'
+
+let g:ale_linters = {
+			\ 'cs': ['OmniSharp']
+			\}

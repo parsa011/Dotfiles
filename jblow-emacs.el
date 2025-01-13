@@ -26,6 +26,8 @@
 (set-cursor-color "lightgreen")
 (set-background-color "#072626")
 (global-set-key [C-return] 'save-buffer)
+(tool-bar-mode -1)
+(menu-bar-mode -1) 
 
 ;(set-face-attribute 'default nil :font "Anonymous Pro-14")
 (set-face-attribute 'default nil :font "Consolas-12")

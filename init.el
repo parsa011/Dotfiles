@@ -1,13 +1,13 @@
 (menu-bar-mode -1)
 (if window-system
-    tool-bar-mode -1)
+  tool-bar-mode -1)
 (setq-default tab-width 4)
 (setq inhibit-startup-message t
-        initial-scratch-message "Hello world"
-        cursor-type 'bar)
+	  initial-scratch-message "Hello world"
+	  cursor-type 'bar)
 
 (setq c-default-style "linux"
-      c-basic-offset 4
+	  c-basic-offset 4
 	  indent-tab-mode t)
 ;; (add-hook 'c-mode-common-hook '(lambda () (c-toggle-auto-state 1)))
 
@@ -31,6 +31,7 @@
  '(region ((t (:background "blue"))))
  '(widget-field-face ((t (:foreground "white"))) t)
  '(widget-single-line-field-face ((t (:background "darkgray"))) t))
+(set-face-attribute 'default nil :height 110)  ;; 12 pt
 
 (global-font-lock-mode 1)
 (set-cursor-color "lightgreen")
@@ -42,6 +43,8 @@
 
 ; highlight matching parenthesises
 (show-paren-mode 1)
+(tool-bar-mode -1)
+(blink-cursor-mode -1)
 (setq show-paren-delay 0)
 (put 'downcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
@@ -56,6 +59,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("972f792651d32b0506481b9e87b2fbc9b732ae9da2527562668c6e7d149fefda" default))
  '(package-selected-packages
-   '(2048-game omnisharp auto-complete-c-headers auto-complete-clang c-eldoc rust-mode csharp-mode magit)))
-
+   '(zenburn-theme julia-mode 2048-game omnisharp auto-complete-c-headers auto-complete-clang c-eldoc rust-mode csharp-mode magit)))
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(add-to-list 'default-frame-alist
+             '(vertical-scroll-bars . nil)
